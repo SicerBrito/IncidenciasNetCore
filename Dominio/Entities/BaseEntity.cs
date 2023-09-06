@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Dominio.Entities;
 public class BaseEntity{
-    
-    public string ? PkId { get; set; }
+
+    [Key]
+    public string ? Pk_Id { get; set; }
     
 }

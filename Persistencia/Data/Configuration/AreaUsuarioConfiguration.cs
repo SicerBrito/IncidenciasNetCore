@@ -8,38 +8,26 @@ public class AreaUsuarioConfiguration : IEntityTypeConfiguration<AreaUsuario>
 {
     public void Configure(EntityTypeBuilder<AreaUsuario> builder)
     {
-        builder.ToTable(AreaUsuario);
+        builder.ToTable("AreaUsuario");
 
-        builder.Property(p => p.)
-            .HasAnnotation(MySql:ValueGenerationStrategy, MySqlValueGenerationStrategy.IdentityColumn)
-            .HasColumnName()
-            .HasColumnType()
+        builder.Property(p => p.Fk_Usuario)
+            .HasColumnName("Fk_Usuario")
+            .HasColumnType("int")
             .IsRequired();
 
-        builder.Property(p => p.)
-            .HasColumnName()
-            .HasColumnType()
-            .HasMaxLength()
+        builder.HasOne(p => p.Usuarios)
+            .WithMany(p => p.AreaDeUsuarios)
+            .HasForeignKey(p => p.Fk_Usuario);
+
+        builder.Property(p => p.Fk_Area)
+            .HasColumnName("Fk_Area")
+            .HasColumnType("varchar")
+            .HasMaxLength(40)
             .IsRequired();
 
-        builder.HasOne(p => p.)
-            .WithMany(p => p.)
-            .HasForeignKey(p => p.);
+        builder.HasOne(p => p.Areas)
+            .WithMany(p => p.AreaDeUsuarios)
+            .HasForeignKey(p => p.Fk_Area);
 
-        builder.HasMany(p => p.)
-            .WithMany(p => p.)
-            .UsingEntity<>(
-                p => p
-                    .HasOne(p => p.)
-                    .WithMany(p => p.)
-                    .HasForeignKey(p => p.),
-                p => p
-                    .HasOne(p => p.)
-                    .WithMany(p => p.)
-                    .HasForeignKey(p => p.),
-                p => {
-                    p.HasKey(p=> new {p.,p.});                    
-                }
-            );
     }
 }

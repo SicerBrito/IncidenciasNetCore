@@ -1,6 +1,8 @@
 namespace Dominio.Entities;
 public class Lugar : BaseEntity{
 
-    public ICollection<Profesor> ? Profesores { get; set; } = new HashSet<Profesor>();
-    public ICollection<Salon> ? Salones { get; set;}
+    public string ? Area { get; set; }
+    public Area ? Areas { get; set; }
+    public ICollection<Incidencia> ? Incidencias { get; set; }
+
 }
