@@ -1,68 +1,68 @@
-using Domain.Entities;
-using Domain.Interfaces;
+using Dominio.Entities;
+using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiIncidencePro.Controllers;
-public class ContactCategoryController : BaseApiController
+namespace Api.Controllers;
+public class TipoIncidenciaController : ApiBaseController
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public ContactCategoryController(IUnitOfWork unitOfWork)
+    public TipoIncidenciaController(IUnitOfWork unitOfWork)
     {
         this._unitOfWork = unitOfWork;
     }
-    // [GET]
+    // [GET] 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<ContactCategory>>> Get()
+    public async Task<ActionResult<IEnumerable<TipoIncidencia>>> Get()
     {
-        var contactCategories = await _unitOfWork.ContactCategories.GetAllAsync();
-        return Ok(contactCategories);
+        var tipoIncidencias = await _unitOfWork.TipoIncidencias.GetAllAsync();
+        return Ok(tipoIncidencias);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetId(int id)
     {
-        var contactCategories = await _unitOfWork.ContactCategories.GetByIdAsync(id);
-        return Ok(contactCategories);
+        var tipoIncidencias = await _unitOfWork.TipoIncidencias.GetByIdAsync(id);
+        return Ok(tipoIncidencias);
     }
     // [POST]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ContactCategory>> Post(ContactCategory contactCategory){
-        this._unitOfWork.ContactCategories.Add(contactCategory);
+    public async Task<ActionResult<Area>> Post(TipoIncidencia tipoIncidencia){
+        this._unitOfWork.TipoIncidencias.Add(tipoIncidencia);
         await _unitOfWork.SaveAsync();
-        if (contactCategory == null)
+        if (tipoIncidencia == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = contactCategory.Id}, contactCategory); 
+        return CreatedAtAction(nameof(Post), new {id = tipoIncidencia.Id}, tipoIncidencia); 
     }
     // [PUT]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ContactCategory>> Put(int id, [FromBody]ContactCategory contactCategory){
-        if(contactCategory == null)
+    public async Task<ActionResult<TipoIncidencia>> Put(int id, [FromBody]TipoIncidencia tipoIncidencia){
+        if(tipoIncidencia == null)
             return NotFound();
-        _unitOfWork.ContactCategories.Update(contactCategory);
+        _unitOfWork.TipoIncidencias.Update(tipoIncidencia);
         await _unitOfWork.SaveAsync();
-        return contactCategory;
+        return tipoIncidencia;
     }
     // [DELETE]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id){
-        var contactCategory = await _unitOfWork.ContactCategories.GetByIdAsync(id);
-        if(contactCategory == null){
+        var tipoIncidencia = await _unitOfWork.TipoIncidencias.GetByIdAsync(id);
+        if(tipoIncidencia == null){
             return NotFound();
         }
-        _unitOfWork.ContactCategories.Remove(contactCategory);
+        _unitOfWork.TipoIncidencias.Remove(tipoIncidencia);
         await _unitOfWork.SaveAsync();
         return NoContent();
     }

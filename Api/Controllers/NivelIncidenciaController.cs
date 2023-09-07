@@ -1,69 +1,68 @@
-using Domain.Entities;
-using Domain.Interfaces;
+using Dominio.Entities;
+using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiIncidencePro.Controllers;
-
-public class WorkToolController : BaseApiController
+namespace Api.Controllers;
+public class NivelIncidenciaController : ApiBaseController
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public WorkToolController(IUnitOfWork unitOfWork)
+    public NivelIncidenciaController(IUnitOfWork unitOfWork)
     {
         this._unitOfWork = unitOfWork;
     }
-    // [GET]
+    // [GET] 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<WorkTool>>> Get()
+    public async Task<ActionResult<IEnumerable<NivelIncidencia>>> Get()
     {
-        var workTools = await _unitOfWork.WorkTools.GetAllAsync();
-        return Ok(workTools);
+        var nivelIncidencias = await _unitOfWork.NivelIncidencias.GetAllAsync();
+        return Ok(nivelIncidencias);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetId(int id)
     {
-        var workTools = await _unitOfWork.WorkTools.GetByIdAsync(id);
-        return Ok(workTools);
+        var nivelIncidencias = await _unitOfWork.NivelIncidencias.GetByIdAsync(id);
+        return Ok(nivelIncidencias);
     }
     // [POST]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<WorkTool>> Post(WorkTool workTool){
-        this._unitOfWork.WorkTools.Add(workTool);
+    public async Task<ActionResult<NivelIncidencia>> Post(NivelIncidencia nivelIncidencia){
+        this._unitOfWork.NivelIncidencias.Add(nivelIncidencia);
         await _unitOfWork.SaveAsync();
-        if (workTool == null)
+        if (nivelIncidencia == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = workTool.Id}, workTool); 
+        return CreatedAtAction(nameof(Post), new {id = nivelIncidencia.Id}, nivelIncidencia); 
     }
     // [PUT]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<WorkTool>> Put(int id, [FromBody]WorkTool workTool){
-        if(workTool == null)
+    public async Task<ActionResult<NivelIncidencia>> Put(int id, [FromBody]NivelIncidencia nivelIncidencia){
+        if(nivelIncidencia == null)
             return NotFound();
-        _unitOfWork.WorkTools.Update(workTool);
+        _unitOfWork.NivelIncidencias.Update(nivelIncidencia);
         await _unitOfWork.SaveAsync();
-        return workTool;
+        return nivelIncidencia;
     }
     // [DELETE]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id){
-        var workTool = await _unitOfWork.WorkTools.GetByIdAsync(id);
-        if(workTool == null){
+        var nivelIncidencia = await _unitOfWork.NivelIncidencias.GetByIdAsync(id);
+        if(nivelIncidencia == null){
             return NotFound();
         }
-        _unitOfWork.WorkTools.Remove(workTool);
+        _unitOfWork.NivelIncidencias.Remove(nivelIncidencia);
         await _unitOfWork.SaveAsync();
         return NoContent();
     }

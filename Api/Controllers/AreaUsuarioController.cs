@@ -1,14 +1,14 @@
-using Application.UnitOfWork;
-using Domain.Entities;
-using Domain.Interfaces;
+using Aplicacion.UnitOfWork;
+using Dominio.Entities;
+using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiIncidencePro.Controllers;
-public class AreaUserController : BaseApiController
+namespace Api.Controllers;
+public class AreaUsuarioController : ApiBaseController
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public AreaUserController(IUnitOfWork unitOfWork)
+    public AreaUsuarioController(IUnitOfWork unitOfWork)
     {
         this._unitOfWork = unitOfWork;
     }
@@ -16,54 +16,54 @@ public class AreaUserController : BaseApiController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<AreaUser>>> Get()
+    public async Task<ActionResult<IEnumerable<AreaUsuario>>> Get()
     {
-        var areaUsers = await _unitOfWork.AreaUsers.GetAllAsync();
-        return Ok(areaUsers);
+        var areaUsuarios = await _unitOfWork.AreaUsuarios.GetAllAsync();
+        return Ok(areaUsuarios);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetId(int id)
     {
-        var areaUsers = await _unitOfWork.AreaUsers.GetByIdAsync(id);
-        return Ok(areaUsers);
+        var areaUsuarios = await _unitOfWork.AreaUsuarios.GetByIdAsync(id);
+        return Ok(areaUsuarios);
     }
     // [POST]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<AreaUser>> Post(AreaUser areaUser){
-        this._unitOfWork.AreaUsers.Add(areaUser);
+    public async Task<ActionResult<AreaUsuario>> Post(AreaUsuario areaUsuario){
+        this._unitOfWork.AreaUsuarios.Add(areaUsuario);
         await _unitOfWork.SaveAsync();
-        if (areaUser == null)
+        if (areaUsuario == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = areaUser.Id}, areaUser); 
+        return CreatedAtAction(nameof(Post), new {id = areaUsuario.Id}, areaUsuario); 
     }
     // [PUT]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<AreaUser>> Put(int id, [FromBody]AreaUser areaUser){
-        if(areaUser == null)
+    public async Task<ActionResult<AreaUsuario>> Put(int id, [FromBody]AreaUsuario areaUsuario){
+        if(areaUsuario == null)
             return NotFound();
-        _unitOfWork.AreaUsers.Update(areaUser);
+        _unitOfWork.AreaUsuarios.Update(areaUsuario);
         await _unitOfWork.SaveAsync();
-        return areaUser;
+        return areaUsuario;
     }
     // [DELETE]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id){
-        var areaUser = await _unitOfWork.AreaUsers.GetByIdAsync(id);
-        if(areaUser == null){
+        var areaUsuario = await _unitOfWork.AreaUsuarios.GetByIdAsync(id);
+        if(areaUsuario == null){
             return NotFound();
         }
-        _unitOfWork.AreaUsers.Remove(areaUser);
+        _unitOfWork.AreaUsuarios.Remove(areaUsuario);
         await _unitOfWork.SaveAsync();
         return NoContent();
     }

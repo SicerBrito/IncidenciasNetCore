@@ -4,42 +4,23 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistencia.Data.Configuration;
-public class NivelInsidenciaConfiguration : IEntityTypeConfiguration<NivelInsidencia>
+public class NivelIncidenciaConfiguration : IEntityTypeConfiguration<NivelIncidencia>
 {
-    public void Configure(EntityTypeBuilder<NivelInsidencia> builder)
+    public void Configure(EntityTypeBuilder<NivelIncidencia> builder)
     {
-        builder.ToTable(NivelInsidencia);
+        builder.ToTable("NivelIncidencia");
 
-        builder.Property(p => p.)
-            .HasAnnotation(MySql:ValueGenerationStrategy, MySqlValueGenerationStrategy.IdentityColumn)
-            .HasColumnName()
-            .HasColumnType()
+        builder.Property(p => p.Pk_Id)
+            .HasColumnName("NivelIncidencia")
+            .HasColumnType("varchar")
+            .HasMaxLength(40)
             .IsRequired();
 
-        builder.Property(p => p.)
-            .HasColumnName()
-            .HasColumnType()
-            .HasMaxLength()
+        builder.Property(p => p.Descripcion)
+            .HasColumnName("Descripcion")
+            .HasColumnType("varchar")
+            .HasMaxLength(255)
             .IsRequired();
 
-        builder.HasOne(p => p.)
-            .WithMany(p => p.)
-            .HasForeignKey(p => p.);
-
-        builder.HasMany(p => p.)
-            .WithMany(p => p.)
-            .UsingEntity<>(
-                p => p
-                    .HasOne(p => p.)
-                    .WithMany(p => p.)
-                    .HasForeignKey(p => p.),
-                p => p
-                    .HasOne(p => p.)
-                    .WithMany(p => p.)
-                    .HasForeignKey(p => p.),
-                p => {
-                    p.HasKey(p=> new {p.,p.});                    
-                }
-            );
     }
 }

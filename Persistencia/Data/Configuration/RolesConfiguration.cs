@@ -4,42 +4,17 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistencia.Data.Configuration;
-public class RolesConfiguration : IEntityTypeConfiguration<Roles>
+public class RolConfiguration : IEntityTypeConfiguration<Rol>
 {
-    public void Configure(EntityTypeBuilder<Roles> builder)
+    public void Configure(EntityTypeBuilder<Rol> builder)
     {
-        builder.ToTable(Roles);
+        builder.ToTable("Rol");
 
-        builder.Property(p => p.)
-            .HasAnnotation(MySql:ValueGenerationStrategy, MySqlValueGenerationStrategy.IdentityColumn)
-            .HasColumnName()
-            .HasColumnType()
+        builder.Property(p => p.Pk_Id)
+            .HasColumnName("Rol")
+            .HasColumnType("varchar")
+            .HasMaxLength(40)
             .IsRequired();
-
-        builder.Property(p => p.)
-            .HasColumnName()
-            .HasColumnType()
-            .HasMaxLength()
-            .IsRequired();
-
-        builder.HasOne(p => p.)
-            .WithMany(p => p.)
-            .HasForeignKey(p => p.);
-
-        builder.HasMany(p => p.)
-            .WithMany(p => p.)
-            .UsingEntity<>(
-                p => p
-                    .HasOne(p => p.)
-                    .WithMany(p => p.)
-                    .HasForeignKey(p => p.),
-                p => p
-                    .HasOne(p => p.)
-                    .WithMany(p => p.)
-                    .HasForeignKey(p => p.),
-                p => {
-                    p.HasKey(p=> new {p.,p.});                    
-                }
-            );
+            
     }
 }

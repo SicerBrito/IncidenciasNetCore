@@ -1,13 +1,13 @@
-using Domain.Entities;
-using Domain.Interfaces;
+using Dominio.Entities;
+using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiIncidencePro.Controllers;
-public class IncidenceDetailController : BaseApiController
+namespace Api.Controllers;
+public class DetalleIncidenciaController : ApiBaseController
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public IncidenceDetailController(IUnitOfWork unitOfWork)
+    public DetalleIncidenciaController(IUnitOfWork unitOfWork)
     {
         this._unitOfWork = unitOfWork;
     }
@@ -15,55 +15,55 @@ public class IncidenceDetailController : BaseApiController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<IncidenceDetail>>> Get()
+    public async Task<ActionResult<IEnumerable<DetalleIncidencia>>> Get()
     {
-        var incidenceDetails = await _unitOfWork.IncidenceDetails.GetAllAsync();
-        return Ok(incidenceDetails);
+        var detalleIncidencias = await _unitOfWork.DetalleIncidencias.GetAllAsync();
+        return Ok(detalleIncidencias);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetId(int id)
     {
-        var incidenceDetails = await _unitOfWork.IncidenceDetails.GetByIdAsync(id);
-        return Ok(incidenceDetails);
+        var detalleIncidencias = await _unitOfWork.DetalleIncidencias.GetByIdAsync(id);
+        return Ok(detalleIncidencias);
     }
     // [POST]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Area>> Post(IncidenceDetail incidenceDetail){
-        this._unitOfWork.IncidenceDetails.Add(incidenceDetail);
+    public async Task<ActionResult<Area>> Post(DetalleIncidencia detalleIncidencia){
+        this._unitOfWork.DetalleIncidencias.Add(detalleIncidencia);
         await _unitOfWork.SaveAsync();
-        if (incidenceDetail == null)
+        if (detalleIncidencia == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = incidenceDetail.Id}, incidenceDetail); 
+        return CreatedAtAction(nameof(Post), new {id = detalleIncidencia.Id}, detalleIncidencia); 
     }
     // [PUT]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IncidenceDetail>> Put(int id, [FromBody]IncidenceDetail incidenceDetail){
-        if(incidenceDetail == null)
+    public async Task<ActionResult<DetalleIncidencia>> Put(int id, [FromBody]DetalleIncidencia detalleIncidencia){
+        if(detalleIncidencia == null)
             return NotFound();
-        _unitOfWork.IncidenceDetails.Update(incidenceDetail);
+        _unitOfWork.DetalleIncidencias.Update(detalleIncidencia);
         await _unitOfWork.SaveAsync();
-        return incidenceDetail;
+        return detalleIncidencia;
     }
     // [DELETE]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id){
-        var incidenceDetail = await _unitOfWork.IncidenceDetails.GetByIdAsync(id);
-        if(incidenceDetail == null){
+        var detalleIncidencia = await _unitOfWork.DetalleIncidencias.GetByIdAsync(id);
+        if(detalleIncidencia == null){
             return NotFound();
         }
-        _unitOfWork.IncidenceDetails.Remove(incidenceDetail);
+        _unitOfWork.DetalleIncidencias.Remove(detalleIncidencia);
         await _unitOfWork.SaveAsync();
-        return NoContent();
+        return NoContent(); 
     }
 }

@@ -1,68 +1,68 @@
-using Domain.Entities;
-using Domain.Interfaces;
+using Dominio.Entities;
+using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiIncidencePro.Controllers;
-public class ContactTypeController : BaseApiController
+namespace Api.Controllers;
+public class LugarController : ApiBaseController
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public ContactTypeController(IUnitOfWork unitOfWork)
+    public LugarController(IUnitOfWork unitOfWork)
     {
         this._unitOfWork = unitOfWork;
     }
-    // [GET]
+    // [GET] 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<ContactType>>> Get()
+    public async Task<ActionResult<IEnumerable<Lugar>>> Get()
     {
-        var contactTypes = await _unitOfWork.ContactTypes.GetAllAsync();
-        return Ok(contactTypes);
-    } 
+        var lugares = await _unitOfWork.Lugares.GetAllAsync();
+        return Ok(lugares);
+    }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GeId(int id)
+    public async Task<IActionResult> GetId(int id)
     {
-        var contactTypes = await _unitOfWork.ContactTypes.GetByIdAsync(id);
-        return Ok(contactTypes);
+        var lugares = await _unitOfWork.Lugares.GetByIdAsync(id);
+        return Ok(lugares);
     }
     // [POST]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ContactType>> Post(ContactType contactType){
-        this._unitOfWork.ContactTypes.Add(contactType);
+    public async Task<ActionResult<Area>> Post(Lugar lugar){
+        this._unitOfWork.Lugares.Add(lugar);
         await _unitOfWork.SaveAsync();
-        if (contactType == null)
+        if (lugar == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = contactType.Id}, contactType); 
+        return CreatedAtAction(nameof(Post), new {id = lugar.Id}, lugar); 
     }
     // [PUT]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ContactType>> Put(int id, [FromBody]ContactType contactType){
-        if(contactType == null)
+    public async Task<ActionResult<Lugar>> Put(int id, [FromBody]Lugar lugar){
+        if(lugar == null)
             return NotFound();
-        _unitOfWork.ContactTypes.Update(contactType);
+        _unitOfWork.Lugares.Update(lugar);
         await _unitOfWork.SaveAsync();
-        return contactType;
+        return lugar;
     }
     // [DELETE]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id){
-        var contactType = await _unitOfWork.ContactTypes.GetByIdAsync(id);
-        if(contactType == null){
+        var lugar = await _unitOfWork.Lugares.GetByIdAsync(id);
+        if(lugar == null){
             return NotFound();
         }
-        _unitOfWork.ContactTypes.Remove(contactType);
+        _unitOfWork.Lugares.Remove(lugar);
         await _unitOfWork.SaveAsync();
         return NoContent();
     }

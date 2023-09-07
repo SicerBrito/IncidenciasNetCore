@@ -8,38 +8,22 @@ public class LugarConfiguration : IEntityTypeConfiguration<Lugar>
 {
     public void Configure(EntityTypeBuilder<Lugar> builder)
     {
-        builder.ToTable(Lugar);
+        builder.ToTable("Lugar");
 
-        builder.Property(p => p.)
-            .HasAnnotation(MySql:ValueGenerationStrategy, MySqlValueGenerationStrategy.IdentityColumn)
-            .HasColumnName()
-            .HasColumnType()
+        builder.Property(p => p.Pk_Id)
+            .HasColumnName("Lugar")
+            .HasColumnType("varchar")
             .IsRequired();
 
-        builder.Property(p => p.)
-            .HasColumnName()
-            .HasColumnType()
-            .HasMaxLength()
+        builder.Property(p => p.Fk_Area)
+            .HasColumnName("Fk_Area")
+            .HasColumnType("varchar")
+            .HasMaxLength(40)
             .IsRequired();
 
-        builder.HasOne(p => p.)
-            .WithMany(p => p.)
-            .HasForeignKey(p => p.);
+        builder.HasOne(p => p.Areas)
+            .WithMany(p => p.Lugares)
+            .HasForeignKey(p => p.Fk_Area);
 
-        builder.HasMany(p => p.)
-            .WithMany(p => p.)
-            .UsingEntity<>(
-                p => p
-                    .HasOne(p => p.)
-                    .WithMany(p => p.)
-                    .HasForeignKey(p => p.),
-                p => p
-                    .HasOne(p => p.)
-                    .WithMany(p => p.)
-                    .HasForeignKey(p => p.),
-                p => {
-                    p.HasKey(p=> new {p.,p.});                    
-                }
-            );
     }
 }

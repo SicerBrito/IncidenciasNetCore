@@ -1,68 +1,69 @@
-using Domain.Entities;
-using Domain.Interfaces;
+using Dominio.Entities;
+using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiIncidencePro.Controllers;
-public class RoleController : BaseApiController
+namespace Api.Controllers;
+
+public class HerramientaTrabajoController : ApiBaseController
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public RoleController(IUnitOfWork unitOfWork)
+    public HerramientaTrabajoController(IUnitOfWork unitOfWork)
     {
         this._unitOfWork = unitOfWork;
     }
-    // [GET] 
+    // [GET]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<Role>>> Get()
+    public async Task<ActionResult<IEnumerable<HerramientaTrabajo>>> Get()
     {
-        var roles = await _unitOfWork.Roles.GetAllAsync();
-        return Ok(roles);
+        var herramientaTrabajos = await _unitOfWork.HerramientaTrabajos.GetAllAsync();
+        return Ok(herramientaTrabajos);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetId(int id)
     {
-        var roles = await _unitOfWork.Roles.GetByIdAsync(id);
-        return Ok(roles);
+        var herramientaTrabajos = await _unitOfWork.HerramientaTrabajos.GetByIdAsync(id);
+        return Ok(herramientaTrabajos);
     }
     // [POST]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Role>> Post(Role role){
-        this._unitOfWork.Roles.Add(role);
+    public async Task<ActionResult<HerramientaTrabajo>> Post(HerramientaTrabajo herramientaTrabajo){
+        this._unitOfWork.HerramientaTrabajos.Add(herramientaTrabajo);
         await _unitOfWork.SaveAsync();
-        if (role == null)
+        if (herramientaTrabajo == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = role.Id}, role); 
+        return CreatedAtAction(nameof(Post), new {id = herramientaTrabajo.Id}, herramientaTrabajo); 
     }
     // [PUT]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Role>> Put(int id, [FromBody]Role role){
-        if(role == null)
+    public async Task<ActionResult<HerramientaTrabajo>> Put(int id, [FromBody]HerramientaTrabajo herramientaTrabajo){
+        if(herramientaTrabajo == null)
             return NotFound();
-        _unitOfWork.Roles.Update(role);
+        _unitOfWork.HerramientaTrabajos.Update(herramientaTrabajo);
         await _unitOfWork.SaveAsync();
-        return role;
+        return herramientaTrabajo;
     }
     // [DELETE]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id){
-        var role = await _unitOfWork.Roles.GetByIdAsync(id);
-        if(role == null){
+        var herramientaTrabajo = await _unitOfWork.HerramientaTrabajos.GetByIdAsync(id);
+        if(herramientaTrabajo == null){
             return NotFound();
         }
-        _unitOfWork.Roles.Remove(role);
+        _unitOfWork.HerramientaTrabajos.Remove(herramientaTrabajo);
         await _unitOfWork.SaveAsync();
         return NoContent();
     }

@@ -1,13 +1,13 @@
-using Domain.Entities;
-using Domain.Interfaces;
+using Dominio.Entities;
+using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiIncidencePro.Controllers;
-public class IncidenceTypeController : BaseApiController
+namespace Api.Controllers;
+public class RolController : ApiBaseController
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public IncidenceTypeController(IUnitOfWork unitOfWork)
+    public RolController(IUnitOfWork unitOfWork)
     {
         this._unitOfWork = unitOfWork;
     }
@@ -15,54 +15,54 @@ public class IncidenceTypeController : BaseApiController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<IncidenceType>>> Get()
+    public async Task<ActionResult<IEnumerable<Rol>>> Get()
     {
-        var incidenceTypes = await _unitOfWork.IncidenceTypes.GetAllAsync();
-        return Ok(incidenceTypes);
+        var roles = await _unitOfWork.Roles.GetAllAsync();
+        return Ok(roles);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetId(int id)
     {
-        var incidenceTypes = await _unitOfWork.IncidenceTypes.GetByIdAsync(id);
-        return Ok(incidenceTypes);
+        var roles = await _unitOfWork.Roles.GetByIdAsync(id);
+        return Ok(roles);
     }
     // [POST]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Area>> Post(IncidenceType incidenceType){
-        this._unitOfWork.IncidenceTypes.Add(incidenceType);
+    public async Task<ActionResult<Rol>> Post(Rol rol){
+        this._unitOfWork.Roles.Add(rol);
         await _unitOfWork.SaveAsync();
-        if (incidenceType == null)
+        if (rol == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = incidenceType.Id}, incidenceType); 
+        return CreatedAtAction(nameof(Post), new {id = rol.Id}, rol); 
     }
     // [PUT]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IncidenceType>> Put(int id, [FromBody]IncidenceType incidenceType){
-        if(incidenceType == null)
+    public async Task<ActionResult<Rol>> Put(int id, [FromBody]Rol rol){
+        if(rol == null)
             return NotFound();
-        _unitOfWork.IncidenceTypes.Update(incidenceType);
+        _unitOfWork.Roles.Update(rol);
         await _unitOfWork.SaveAsync();
-        return incidenceType;
+        return rol;
     }
     // [DELETE]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id){
-        var incidenceType = await _unitOfWork.IncidenceTypes.GetByIdAsync(id);
-        if(incidenceType == null){
+        var rol = await _unitOfWork.Roles.GetByIdAsync(id);
+        if(rol == null){
             return NotFound();
         }
-        _unitOfWork.IncidenceTypes.Remove(incidenceType);
+        _unitOfWork.Roles.Remove(rol);
         await _unitOfWork.SaveAsync();
         return NoContent();
     }

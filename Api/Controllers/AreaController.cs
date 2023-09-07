@@ -3,8 +3,8 @@ using Dominio.Entities;
 using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiIncidencePro.Controllers;
-public class AreaController : BaseApiController
+namespace Api.Controllers;
+public class AreaController : ApiBaseController
 {
     private readonly IUnitOfWork _unitOfWork;
 

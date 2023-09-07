@@ -8,38 +8,13 @@ public class TipoIncidenciaConfiguration : IEntityTypeConfiguration<TipoIncidenc
 {
     public void Configure(EntityTypeBuilder<TipoIncidencia> builder)
     {
-        builder.ToTable(TipoIncidencia);
+        builder.ToTable("TipoIncidencia");
 
-        builder.Property(p => p.)
-            .HasAnnotation(MySql:ValueGenerationStrategy, MySqlValueGenerationStrategy.IdentityColumn)
-            .HasColumnName()
-            .HasColumnType()
+        builder.Property(p => p.Pk_Id)
+            .HasColumnName("TipoIncidencia")
+            .HasColumnType("varchar")
+            .HasMaxLength(40)
             .IsRequired();
 
-        builder.Property(p => p.)
-            .HasColumnName()
-            .HasColumnType()
-            .HasMaxLength()
-            .IsRequired();
-
-        builder.HasOne(p => p.)
-            .WithMany(p => p.)
-            .HasForeignKey(p => p.);
-
-        builder.HasMany(p => p.)
-            .WithMany(p => p.)
-            .UsingEntity<>(
-                p => p
-                    .HasOne(p => p.)
-                    .WithMany(p => p.)
-                    .HasForeignKey(p => p.),
-                p => p
-                    .HasOne(p => p.)
-                    .WithMany(p => p.)
-                    .HasForeignKey(p => p.),
-                p => {
-                    p.HasKey(p=> new {p.,p.});                    
-                }
-            );
     }
 }

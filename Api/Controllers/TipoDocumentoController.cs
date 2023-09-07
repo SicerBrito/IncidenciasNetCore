@@ -1,68 +1,68 @@
-using Domain.Entities;
-using Domain.Interfaces;
+using Dominio.Entities;
+using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiIncidencePro.Controllers;
-public class PlaceController : BaseApiController
+namespace Api.Controllers;
+public class TipoDocumentoController : ApiBaseController
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public PlaceController(IUnitOfWork unitOfWork)
+    public TipoDocumentoController(IUnitOfWork unitOfWork)
     {
         this._unitOfWork = unitOfWork;
     }
-    // [GET] 
+    // [GET]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<Place>>> Get()
+    public async Task<ActionResult<IEnumerable<TipoDocumento>>> Get()
     {
-        var places = await _unitOfWork.Places.GetAllAsync();
-        return Ok(places);
+        var tipoDocumentos = await _unitOfWork.TipoDocumentos.GetAllAsync();
+        return Ok(tipoDocumentos);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetId(int id)
     {
-        var places = await _unitOfWork.Places.GetByIdAsync(id);
-        return Ok(places);
+        var tipoDocumentos = await _unitOfWork.TipoDocumentos.GetByIdAsync(id);
+        return Ok(tipoDocumentos);
     }
     // [POST]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Area>> Post(Place place){
-        this._unitOfWork.Places.Add(place);
+    public async Task<ActionResult<TipoDocumento>> Post(TipoDocumento tipoDocumento){
+        this._unitOfWork.TipoDocumentos.Add(tipoDocumento);
         await _unitOfWork.SaveAsync();
-        if (place == null)
+        if (tipoDocumento == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = place.Id}, place); 
+        return CreatedAtAction(nameof(Post), new {id = tipoDocumento.Id}, tipoDocumento); 
     }
     // [PUT]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Place>> Put(int id, [FromBody]Place place){
-        if(place == null)
+    public async Task<ActionResult<TipoDocumento>> Put(int id, [FromBody]TipoDocumento tipoDocumento){
+        if(tipoDocumento == null)
             return NotFound();
-        _unitOfWork.Places.Update(place);
+        _unitOfWork.TipoDocumentos.Update(tipoDocumento);
         await _unitOfWork.SaveAsync();
-        return place;
+        return tipoDocumento;
     }
     // [DELETE]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id){
-        var place = await _unitOfWork.Places.GetByIdAsync(id);
-        if(place == null){
+        var tipoDocumento = await _unitOfWork.TipoDocumentos.GetByIdAsync(id);
+        if(tipoDocumento == null){
             return NotFound();
         }
-        _unitOfWork.Places.Remove(place);
+        _unitOfWork.TipoDocumentos.Remove(tipoDocumento);
         await _unitOfWork.SaveAsync();
         return NoContent();
     }

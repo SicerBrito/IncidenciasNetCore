@@ -1,20 +1,18 @@
 using System.Linq.Expressions;
-using Dominio.Entities;
 using Dominio.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Persistencia.Data;
 
 namespace Aplicacion.Repository;
-public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
+public class TwoRepository<T> : ITwoRepository<T> where T : class
 {
-
     private readonly SicerContext _context;
-    public GenericRepository(SicerContext context)
+    public TwoRepository(SicerContext context)
     {
         _context = context;
     }
     public virtual void Add(T entity)
-    {        
+    {
         _context.Set<T>().Add(entity);
     }
 
@@ -52,5 +50,4 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         _context.Set<T>().Update(entity);
     }
-
 }

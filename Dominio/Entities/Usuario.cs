@@ -9,13 +9,10 @@ public class Usuario{
     public TipoDocumento ? TipoDeDocumentos { get; set; }
     public string ? Nombres { get; set; }
     public string ? Apellidos { get; set; }
-    public string ? Fk_Direccion { get; set; }
-    public Direccion ? Direcciones { get; set; }
-    public int NumeroDocumento { get; set; }
     public ICollection<Rol> ? Roles { get; set; } = new HashSet<Rol>();
     public ICollection<UsuarioRol> ? UsuariosRoles { get; set; }
     public ICollection<AreaUsuario> ? AreaDeUsuarios { get; set; }
     public ICollection<Contacto> ? Contactos { get; set; }
-
-
+    public ICollection<Incidencia> ? Incidencias { get; set; }
+    public ICollection<Direccion> ? Direcciones { get; set; }
 }

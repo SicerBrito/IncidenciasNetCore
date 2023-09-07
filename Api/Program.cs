@@ -10,9 +10,9 @@ builder.Services.AddControllers();
 builder.Services.ConfigureCors();
 builder.Services.AddAplicacionServices();
 
-builder.Services.AddDbContext<NameContext>(options =>
+builder.Services.AddDbContext<SicerContext>(options =>
 {
-    string ? connectionString = builder.Configuration.GetConnectionString(ConexMysql);
+    string ? connectionString = builder.Configuration.GetConnectionString("ConexMysql");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
@@ -29,7 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(CorsPolicy);
+app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
 

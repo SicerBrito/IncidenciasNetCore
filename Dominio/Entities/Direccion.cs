@@ -9,4 +9,5 @@ namespace Dominio.Entities;
         public int FK_Usuario { get; set; }
         public Usuario ? Usuarios { get; set; }
         
+        
     }
