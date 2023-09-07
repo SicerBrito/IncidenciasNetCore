@@ -18,15 +18,15 @@ public class HerramientaTrabajoController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<HerramientaTrabajo>>> Get()
     {
-        var herramientaTrabajos = await _unitOfWork.HerramientaTrabajos.GetAllAsync();
+        var herramientaTrabajos = await _unitOfWork.HerramientaTrabajos!.GetAllAsync();
         return Ok(herramientaTrabajos);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetId(int id)
+    public async Task<IActionResult> GetId(string id)
     {
-        var herramientaTrabajos = await _unitOfWork.HerramientaTrabajos.GetByIdAsync(id);
+        var herramientaTrabajos = await _unitOfWork.HerramientaTrabajos!.GetByIdAsync(id)!;
         return Ok(herramientaTrabajos);
     }
     // [POST]
@@ -34,13 +34,13 @@ public class HerramientaTrabajoController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<HerramientaTrabajo>> Post(HerramientaTrabajo herramientaTrabajo){
-        this._unitOfWork.HerramientaTrabajos.Add(herramientaTrabajo);
+        this._unitOfWork.HerramientaTrabajos!.Add(herramientaTrabajo);
         await _unitOfWork.SaveAsync();
         if (herramientaTrabajo == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = herramientaTrabajo.Id}, herramientaTrabajo); 
+        return CreatedAtAction(nameof(Post), new {id = herramientaTrabajo.Pk_Id}, herramientaTrabajo); 
     }
     // [PUT]
     [HttpPut("{id}")]
@@ -50,7 +50,7 @@ public class HerramientaTrabajoController : ApiBaseController
     public async Task<ActionResult<HerramientaTrabajo>> Put(int id, [FromBody]HerramientaTrabajo herramientaTrabajo){
         if(herramientaTrabajo == null)
             return NotFound();
-        _unitOfWork.HerramientaTrabajos.Update(herramientaTrabajo);
+        _unitOfWork.HerramientaTrabajos!.Update(herramientaTrabajo);
         await _unitOfWork.SaveAsync();
         return herramientaTrabajo;
     }
@@ -58,8 +58,8 @@ public class HerramientaTrabajoController : ApiBaseController
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(int id){
-        var herramientaTrabajo = await _unitOfWork.HerramientaTrabajos.GetByIdAsync(id);
+    public async Task<IActionResult> Delete(string id){
+        var herramientaTrabajo = await _unitOfWork.HerramientaTrabajos!.GetByIdAsync(id)!;
         if(herramientaTrabajo == null){
             return NotFound();
         }

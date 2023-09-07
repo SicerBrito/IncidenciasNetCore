@@ -17,15 +17,15 @@ public class TipoDocumentoController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<TipoDocumento>>> Get()
     {
-        var tipoDocumentos = await _unitOfWork.TipoDocumentos.GetAllAsync();
+        var tipoDocumentos = await _unitOfWork.TipoDocumentos!.GetAllAsync();
         return Ok(tipoDocumentos);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetId(int id)
+    public async Task<IActionResult> GetId(string id)
     {
-        var tipoDocumentos = await _unitOfWork.TipoDocumentos.GetByIdAsync(id);
+        var tipoDocumentos = await _unitOfWork.TipoDocumentos!.GetByIdAsync(id)!;
         return Ok(tipoDocumentos);
     }
     // [POST]
@@ -33,13 +33,13 @@ public class TipoDocumentoController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<TipoDocumento>> Post(TipoDocumento tipoDocumento){
-        this._unitOfWork.TipoDocumentos.Add(tipoDocumento);
+        this._unitOfWork.TipoDocumentos!.Add(tipoDocumento);
         await _unitOfWork.SaveAsync();
         if (tipoDocumento == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = tipoDocumento.Id}, tipoDocumento); 
+        return CreatedAtAction(nameof(Post), new {id = tipoDocumento.Pk_Id}, tipoDocumento); 
     }
     // [PUT]
     [HttpPut("{id}")]
@@ -49,7 +49,7 @@ public class TipoDocumentoController : ApiBaseController
     public async Task<ActionResult<TipoDocumento>> Put(int id, [FromBody]TipoDocumento tipoDocumento){
         if(tipoDocumento == null)
             return NotFound();
-        _unitOfWork.TipoDocumentos.Update(tipoDocumento);
+        _unitOfWork.TipoDocumentos!.Update(tipoDocumento);
         await _unitOfWork.SaveAsync();
         return tipoDocumento;
     }
@@ -57,8 +57,8 @@ public class TipoDocumentoController : ApiBaseController
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(int id){
-        var tipoDocumento = await _unitOfWork.TipoDocumentos.GetByIdAsync(id);
+    public async Task<IActionResult> Delete(string id){
+        var tipoDocumento = await _unitOfWork.TipoDocumentos!.GetByIdAsync(id)!;
         if(tipoDocumento == null){
             return NotFound();
         }

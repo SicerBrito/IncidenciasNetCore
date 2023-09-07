@@ -17,15 +17,15 @@ public class DetalleIncidenciaController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<DetalleIncidencia>>> Get()
     {
-        var detalleIncidencias = await _unitOfWork.DetalleIncidencias.GetAllAsync();
+        var detalleIncidencias = await _unitOfWork.DetalleIncidencias!.GetAllAsync();
         return Ok(detalleIncidencias);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetId(int id)
+    public async Task<IActionResult> GetId(string id)
     {
-        var detalleIncidencias = await _unitOfWork.DetalleIncidencias.GetByIdAsync(id);
+        var detalleIncidencias = await _unitOfWork.DetalleIncidencias!.GetByIdAsync(id)!;
         return Ok(detalleIncidencias);
     }
     // [POST]
@@ -33,13 +33,13 @@ public class DetalleIncidenciaController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Area>> Post(DetalleIncidencia detalleIncidencia){
-        this._unitOfWork.DetalleIncidencias.Add(detalleIncidencia);
+        this._unitOfWork.DetalleIncidencias!.Add(detalleIncidencia);
         await _unitOfWork.SaveAsync();
         if (detalleIncidencia == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = detalleIncidencia.Id}, detalleIncidencia); 
+        return CreatedAtAction(nameof(Post), new {id = detalleIncidencia.Pk_DetalleIncidencia}, detalleIncidencia); 
     }
     // [PUT]
     [HttpPut("{id}")]
@@ -49,7 +49,7 @@ public class DetalleIncidenciaController : ApiBaseController
     public async Task<ActionResult<DetalleIncidencia>> Put(int id, [FromBody]DetalleIncidencia detalleIncidencia){
         if(detalleIncidencia == null)
             return NotFound();
-        _unitOfWork.DetalleIncidencias.Update(detalleIncidencia);
+        _unitOfWork.DetalleIncidencias!.Update(detalleIncidencia);
         await _unitOfWork.SaveAsync();
         return detalleIncidencia;
     }
@@ -57,8 +57,8 @@ public class DetalleIncidenciaController : ApiBaseController
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(int id){
-        var detalleIncidencia = await _unitOfWork.DetalleIncidencias.GetByIdAsync(id);
+    public async Task<IActionResult> Delete(string id){
+        var detalleIncidencia = await _unitOfWork.DetalleIncidencias!.GetByIdAsync(id)!;
         if(detalleIncidencia == null){
             return NotFound();
         }

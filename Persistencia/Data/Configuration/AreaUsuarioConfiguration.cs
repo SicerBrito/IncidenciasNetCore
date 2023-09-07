@@ -10,6 +10,12 @@ public class AreaUsuarioConfiguration : IEntityTypeConfiguration<AreaUsuario>
     {
         builder.ToTable("AreaUsuario");
 
+        builder.Property(p => p.Pk_AreaUsuario)
+            .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
+            .HasColumnName("Pk_AreaUsuario")
+            .HasColumnType("int")
+            .IsRequired();
+
         builder.Property(p => p.Fk_Usuario)
             .HasColumnName("Fk_Usuario")
             .HasColumnType("int")

@@ -17,15 +17,15 @@ public class NivelIncidenciaController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<NivelIncidencia>>> Get()
     {
-        var nivelIncidencias = await _unitOfWork.NivelIncidencias.GetAllAsync();
+        var nivelIncidencias = await _unitOfWork.NivelIncidencias!.GetAllAsync();
         return Ok(nivelIncidencias);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetId(int id)
+    public async Task<IActionResult> GetId(string id)
     {
-        var nivelIncidencias = await _unitOfWork.NivelIncidencias.GetByIdAsync(id);
+        var nivelIncidencias = await _unitOfWork.NivelIncidencias!.GetByIdAsync(id)!;
         return Ok(nivelIncidencias);
     }
     // [POST]
@@ -33,13 +33,13 @@ public class NivelIncidenciaController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<NivelIncidencia>> Post(NivelIncidencia nivelIncidencia){
-        this._unitOfWork.NivelIncidencias.Add(nivelIncidencia);
+        this._unitOfWork.NivelIncidencias!.Add(nivelIncidencia);
         await _unitOfWork.SaveAsync();
         if (nivelIncidencia == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = nivelIncidencia.Id}, nivelIncidencia); 
+        return CreatedAtAction(nameof(Post), new {id = nivelIncidencia.Pk_Id}, nivelIncidencia); 
     }
     // [PUT]
     [HttpPut("{id}")]
@@ -49,7 +49,7 @@ public class NivelIncidenciaController : ApiBaseController
     public async Task<ActionResult<NivelIncidencia>> Put(int id, [FromBody]NivelIncidencia nivelIncidencia){
         if(nivelIncidencia == null)
             return NotFound();
-        _unitOfWork.NivelIncidencias.Update(nivelIncidencia);
+        _unitOfWork.NivelIncidencias!.Update(nivelIncidencia);
         await _unitOfWork.SaveAsync();
         return nivelIncidencia;
     }
@@ -57,8 +57,8 @@ public class NivelIncidenciaController : ApiBaseController
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(int id){
-        var nivelIncidencia = await _unitOfWork.NivelIncidencias.GetByIdAsync(id);
+    public async Task<IActionResult> Delete(string id){
+        var nivelIncidencia = await _unitOfWork.NivelIncidencias!.GetByIdAsync(id)!;
         if(nivelIncidencia == null){
             return NotFound();
         }

@@ -21,6 +21,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private TipoIncidenciaRepository? _TipoIncidencias;
     private TipoViaRepository? _TipoVia;
     private UsuarioRepository? _Usuario;
+    private AreaUsuarioRepository? _AreaUsuario;
     private UsuarioRolRepository? _UsuarioRol;
 
     private readonly SicerContext _Context;
@@ -58,6 +59,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public IUsuario? Usuarios => _Usuario ??= new UsuarioRepository(_Context);
 
     public IUsuarioRol? UsuarioRoles => _UsuarioRol ??= new UsuarioRolRepository(_Context);
+
+    public IAreaUsuario? AreaUsuarios => _AreaUsuario ??= new AreaUsuarioRepository(_Context);
 
     public virtual  void Dispose()
     {

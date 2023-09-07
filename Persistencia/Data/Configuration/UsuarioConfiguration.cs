@@ -21,6 +21,18 @@ public class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
             .HasColumnType("varchar")
             .HasMaxLength(40)
             .IsRequired();
+        
+        builder.Property(p => p.Email)
+            .HasColumnName("Email")
+            .HasColumnType("varchar")
+            .HasMaxLength(50)
+            .IsRequired();
+
+        builder.Property(p => p.Password)
+            .HasColumnName("Password")
+            .HasColumnType("varchar")
+            .HasMaxLength(50)
+            .IsRequired();
 
         builder.HasOne(p => p.TipoDeDocumentos)
             .WithMany(p => p.Usuarios)

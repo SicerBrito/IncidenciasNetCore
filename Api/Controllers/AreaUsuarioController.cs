@@ -18,15 +18,15 @@ public class AreaUsuarioController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<AreaUsuario>>> Get()
     {
-        var areaUsuarios = await _unitOfWork.AreaUsuarios.GetAllAsync();
+        var areaUsuarios = await _unitOfWork.AreaUsuarios!.GetAllAsync();
         return Ok(areaUsuarios);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetId(int id)
+    public async Task<IActionResult> GetId(string id)
     {
-        var areaUsuarios = await _unitOfWork.AreaUsuarios.GetByIdAsync(id);
+        var areaUsuarios = await _unitOfWork.AreaUsuarios!.GetByIdAsync(id)!;
         return Ok(areaUsuarios);
     }
     // [POST]
@@ -34,13 +34,13 @@ public class AreaUsuarioController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<AreaUsuario>> Post(AreaUsuario areaUsuario){
-        this._unitOfWork.AreaUsuarios.Add(areaUsuario);
+        this._unitOfWork.AreaUsuarios!.Add(areaUsuario);
         await _unitOfWork.SaveAsync();
         if (areaUsuario == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = areaUsuario.Id}, areaUsuario); 
+        return CreatedAtAction(nameof(Post), new {id = areaUsuario.Pk_AreaUsuario}, areaUsuario); 
     }
     // [PUT]
     [HttpPut("{id}")]
@@ -50,7 +50,7 @@ public class AreaUsuarioController : ApiBaseController
     public async Task<ActionResult<AreaUsuario>> Put(int id, [FromBody]AreaUsuario areaUsuario){
         if(areaUsuario == null)
             return NotFound();
-        _unitOfWork.AreaUsuarios.Update(areaUsuario);
+        _unitOfWork.AreaUsuarios!.Update(areaUsuario);
         await _unitOfWork.SaveAsync();
         return areaUsuario;
     }
@@ -58,8 +58,8 @@ public class AreaUsuarioController : ApiBaseController
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(int id){
-        var areaUsuario = await _unitOfWork.AreaUsuarios.GetByIdAsync(id);
+    public async Task<IActionResult> Delete(string id){
+        var areaUsuario = await _unitOfWork.AreaUsuarios!.GetByIdAsync(id)!;
         if(areaUsuario == null){
             return NotFound();
         }

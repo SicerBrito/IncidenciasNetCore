@@ -15,6 +15,7 @@ public class TipoDocumentoRepository : GenericRepository<TipoDocumento>, ITipoDo
         public override async Task<IEnumerable<TipoDocumento>> GetAllAsync()
     {
         return await _Context.TipoDeDocumentos
+                            .Include(a => a.Usuarios)
                             .ToListAsync();
     }
 }

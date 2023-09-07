@@ -15,6 +15,7 @@ public class TipoContactoRepository : TwoRepository<TipoContacto>, ITipoContacto
     public override async Task<IEnumerable<TipoContacto>> GetAllAsync()
     {
         return await _Context.TipoDeContactos
+                            .Include(a => a.Contactos)
                             .ToListAsync();
     }
 }

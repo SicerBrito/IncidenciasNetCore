@@ -17,15 +17,15 @@ public class IncidenciaController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<Incidencia>>> Get()
     {
-        var incidencias = await _unitOfWork.Incidencias.GetAllAsync();
+        var incidencias = await _unitOfWork.Incidencias!.GetAllAsync();
         return Ok(incidencias);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetId(int id)
+    public async Task<IActionResult> GetId(string id)
     {
-        var incidencias = await _unitOfWork.Incidencias.GetByIdAsync(id);
+        var incidencias = await _unitOfWork.Incidencias!.GetByIdAsync(id)!;
         return Ok(incidencias);
     }
     // [POST]
@@ -33,13 +33,13 @@ public class IncidenciaController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Incidencia>> Post(Incidencia incidencia){
-        this._unitOfWork.Incidencias.Add(incidencia);
+        this._unitOfWork.Incidencias!.Add(incidencia);
         await _unitOfWork.SaveAsync();
         if (incidencia == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = incidencia.Id}, incidencia); 
+        return CreatedAtAction(nameof(Post), new {id = incidencia.PK_Id}, incidencia); 
     }
     // [PUT]
     [HttpPut("{id}")]
@@ -49,7 +49,7 @@ public class IncidenciaController : ApiBaseController
     public async Task<ActionResult<Incidencia>> Put(int id, [FromBody]Incidencia incidencia){
         if(incidencia == null)
             return NotFound();
-        _unitOfWork.Incidencias.Update(incidencia);
+        _unitOfWork.Incidencias!.Update(incidencia);
         await _unitOfWork.SaveAsync();
         return incidencia;
     }
@@ -57,8 +57,8 @@ public class IncidenciaController : ApiBaseController
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(int id){
-        var incidencia = await _unitOfWork.Incidencias.GetByIdAsync(id);
+    public async Task<IActionResult> Delete(string id){
+        var incidencia = await _unitOfWork.Incidencias!.GetByIdAsync(id)!;
         if(incidencia == null){
             return NotFound();
         }

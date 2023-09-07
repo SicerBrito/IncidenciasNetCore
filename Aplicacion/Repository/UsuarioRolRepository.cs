@@ -15,8 +15,6 @@ public class UsuarioRolRepository : TwoRepository<UsuarioRol>, IUsuarioRol
     public override async Task<IEnumerable<UsuarioRol>> GetAllAsync()
     {
         return await _Context.UsuarioRols
-                            .Include(a => a.Usuarios)
-                            .Include(a => a.Rols)
                             .ToListAsync();
     }
 }

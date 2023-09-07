@@ -17,15 +17,15 @@ public class ContactoController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<Contacto>>> Get()
     {
-        var contactos = await _unitOfWork.Contactos.GetAllAsync();
+        var contactos = await _unitOfWork.Contactos!.GetAllAsync();
         return Ok(contactos);
     }
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetId(int id)
+    public async Task<IActionResult> GetId(string id)
     {
-        var contactos = await _unitOfWork.Contactos.GetByIdAsync(id);
+        var contactos = await _unitOfWork.Contactos!.GetByIdAsync(id)!;
         return Ok(contactos);
     }
     // [POST]
@@ -33,13 +33,13 @@ public class ContactoController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Contacto>> Post(Contacto contacto){
-        this._unitOfWork.Contactos.Add(contacto);
+        this._unitOfWork.Contactos!.Add(contacto);
         await _unitOfWork.SaveAsync();
         if (contacto == null)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(Post), new {id = contacto.Id}, contacto); 
+        return CreatedAtAction(nameof(Post), new {id = contacto.Pk_Numero}, contacto); 
     }
     // [PUT]
     [HttpPut("{id}")]
@@ -49,7 +49,7 @@ public class ContactoController : ApiBaseController
     public async Task<ActionResult<Contacto>> Put(int id, [FromBody]Contacto contacto){
         if(contacto == null)
             return NotFound();
-        _unitOfWork.Contactos.Update(contacto);
+        _unitOfWork.Contactos!.Update(contacto);
         await _unitOfWork.SaveAsync();
         return contacto;
     }
@@ -57,8 +57,8 @@ public class ContactoController : ApiBaseController
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(int id){
-        var contact = await _unitOfWork.Contactos.GetByIdAsync(id);
+    public async Task<IActionResult> Delete(string id){
+        var contact = await _unitOfWork.Contactos!.GetByIdAsync(id)!;
         if(contact == null){
             return NotFound();
         }

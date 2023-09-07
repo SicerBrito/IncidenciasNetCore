@@ -15,9 +15,9 @@ public class AreaRepository : GenericRepository<Area>, IArea
     public override async Task<IEnumerable<Area>> GetAllAsync()
     {
         return await _Context.Areas
-                            .Include(a => a.AreaUsuarios)
-                            .Include(a => a.Lugar)
-                            .Include(a => a.Incidencia)
+                            .Include(a => a.AreaDeUsuarios)
+                            .Include(a => a.Lugares)
+                            .Include(a => a.Incidencias)
                             .ToListAsync();
     }
 }
