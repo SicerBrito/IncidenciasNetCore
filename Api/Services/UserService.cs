@@ -34,7 +34,7 @@ public class UserService : IUserServiceInterface
         usuario.Password = _passwordHasher!.HashPassword(usuario, registerDto.Password!);
 
         var usuarioExiste = _unitOfWork!.Usuarios!
-                                            .Find(u => u.Pk_IdUser.ToLower() == registerDto.Pk_IdUser.ToLower())
+                                            .Find(u => u.Pk_IdUser == registerDto.Pk_IdUser)
                                             .FirstOrDefault();
         
         if (usuarioExiste == null)
@@ -123,7 +123,7 @@ public class UserService : IUserServiceInterface
             datosUsuarioDto.EstaAutenticado = true;
             JwtSecurityToken jwtSecurityToken = CreateJwtToken(usuario);
             datosUsuarioDto.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            datosUsuarioDto.UserName = usuario.Username;
+            datosUsuarioDto.UserName = usuario.Nombres;
             datosUsuarioDto.Email = usuario.Email;
             //datosUsuarioDto.Token = _jwtGenerador.CrearToken(usuario);
             datosUsuarioDto.Roles = usuario.Roles!
@@ -153,7 +153,7 @@ public class UserService : IUserServiceInterface
         }
         var claims = new[]
         {
-                new Claim(JwtRegisteredClaimNames.Sub, usuario.Pk_IdUser),
+                new Claim(JwtRegisteredClaimNames.Sub, usuario.Nombres!),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("uid", usuario.Pk_IdUser.ToString())
         }

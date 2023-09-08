@@ -26,9 +26,9 @@ public class UsuarioRepository : TwoRepository<Usuario>, IUsuario
 
     public async Task<Usuario> GetByUsernameAsync(string username)
     {
-        return await _Context.Set<Usuario>()
+        return (await _Context.Set<Usuario>()
                                     .Include(u => u.Roles)
-                                    .FirstOrDefaultAsync(u => u.Pk_IdUser.ToLower() == username.ToLower());
+                                    .FirstOrDefaultAsync(u => u.Nombres!.ToLower() == username.ToLower()))!;
     }
 
 }
