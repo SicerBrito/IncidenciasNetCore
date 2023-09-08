@@ -21,7 +21,7 @@ public class AreaUsuarioController : ApiBaseController
         var areaUsuarios = await _unitOfWork.AreaUsuarios!.GetAllAsync();
         return Ok(areaUsuarios);
     }
-    [HttpGet("{id}")]
+    [HttpGet("{GetId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetId(string id)
@@ -30,7 +30,7 @@ public class AreaUsuarioController : ApiBaseController
         return Ok(areaUsuarios);
     }
     // [POST]
-    [HttpPost]
+    [HttpPost("{PostId}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<AreaUsuario>> Post(AreaUsuario areaUsuario){
@@ -43,7 +43,7 @@ public class AreaUsuarioController : ApiBaseController
         return CreatedAtAction(nameof(Post), new {id = areaUsuario.Pk_AreaUsuario}, areaUsuario); 
     }
     // [PUT]
-    [HttpPut("{id}")]
+    [HttpPut("{PutId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -55,7 +55,7 @@ public class AreaUsuarioController : ApiBaseController
         return areaUsuario;
     }
     // [DELETE]
-    [HttpDelete("{id}")]
+    [HttpDelete("{DeleteId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(string id){

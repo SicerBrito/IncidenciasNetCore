@@ -22,7 +22,7 @@ public class AreaController : ApiBaseController
         return Ok(areas);
     }
     // [GET] Permite retornar un registro especifico apartir del id principal
-    [HttpGet("{id}")]
+    [HttpGet("{GetId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetId(string id)
@@ -31,10 +31,10 @@ public class AreaController : ApiBaseController
         return Ok(areas);
     } 
     // [POST]
-    [HttpPost]
+    [HttpPost("{PostId}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Area>> Post(Area area){
+    public async Task<ActionResult<Area>> Post(Area area){        
         this._unitOfWork.Areas!.Add(area);
         await _unitOfWork.SaveAsync();
         if (area == null)
@@ -44,7 +44,7 @@ public class AreaController : ApiBaseController
         return CreatedAtAction(nameof(Post), new {id = area.Pk_Id}, area); 
     }
     // [PUT]
-    [HttpPut("{id}")]
+    [HttpPut("{PutId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -56,7 +56,7 @@ public class AreaController : ApiBaseController
         return area;
     }
     // [DELETE]
-    [HttpDelete("{id}")]
+    [HttpDelete("{DeleteId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(string id){

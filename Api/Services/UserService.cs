@@ -39,9 +39,18 @@ public class UserService : IUserServiceInterface
         
         if (usuarioExiste == null)
         {
-            var rolPredeterminado = _unitOfWork.Roles!
+            Rol? rolPredeterminado = null;
+            try
+            {
+            rolPredeterminado = _unitOfWork.Roles!
                                                 .Find(u => u.Pk_Id == Autorizacion.rol_predeterminado.ToString())
                                                 .First();
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
             try
             {
                 usuario.Roles!.Add(rolPredeterminado);
@@ -66,8 +75,16 @@ public class UserService : IUserServiceInterface
 
     public async Task<string> AddRoleAsync(AddRoleDto model)
     {
-        var usuario = await _unitOfWork!.Usuarios!
+        Usuario? usuario = null;
+        try
+        {
+            usuario = await _unitOfWork!.Usuarios!
                                                 .GetByUsernameAsync(model.Username!);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");            
+        }
         
         if (usuario == null)
         {

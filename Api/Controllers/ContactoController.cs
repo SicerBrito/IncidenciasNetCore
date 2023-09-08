@@ -20,7 +20,7 @@ public class ContactoController : ApiBaseController
         var contactos = await _unitOfWork.Contactos!.GetAllAsync();
         return Ok(contactos);
     }
-    [HttpGet("{id}")]
+    [HttpGet("{GetId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetId(string id)
@@ -29,7 +29,7 @@ public class ContactoController : ApiBaseController
         return Ok(contactos);
     }
     // [POST]
-    [HttpPost]
+    [HttpPost("{PostId}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Contacto>> Post(Contacto contacto){
@@ -42,7 +42,7 @@ public class ContactoController : ApiBaseController
         return CreatedAtAction(nameof(Post), new {id = contacto.Pk_Numero}, contacto); 
     }
     // [PUT]
-    [HttpPut("{id}")]
+    [HttpPut("{PutId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -54,7 +54,7 @@ public class ContactoController : ApiBaseController
         return contacto;
     }
     // [DELETE]
-    [HttpDelete("{id}")]
+    [HttpDelete("{DeleteId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(string id){
